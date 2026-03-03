@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "实现任务存储与领域逻辑",
+      "goal": "支持新增、查询、完成任务",
+      "files_touched": ["example_project/src/todo.py"],
+      "acceptance": [
+        "可新增任务并生成递增 ID",
+        "可读取任务列表",
+        "可按 ID 标记任务完成"
+      ],
+      "test_plan": [
+        "python3 -m unittest discover -s example_project/tests -p 'test_*.py'"
+      ],
+      "dependencies": [],
+      "risk": "JSON 文件损坏导致读取失败"
+    },
+    {
+      "id": "TASK-002",
+      "title": "实现 CLI 与示例测试",
+      "goal": "提供 add/list/done 命令并验证主要行为",
+      "files_touched": [
+        "example_project/src/cli.py",
+        "example_project/tests/test_todo.py"
+      ],
+      "acceptance": [
+        "add/list/done 可用",
+        "错误输入返回可读信息",
+        "自动化测试通过"
+      ],
+      "test_plan": [
+        "python3 -m unittest discover -s example_project/tests -p 'test_*.py'"
+      ],
+      "dependencies": ["TASK-001"],
+      "risk": "参数解析失败导致命令行为不一致"
+    }
+  ]
+}
