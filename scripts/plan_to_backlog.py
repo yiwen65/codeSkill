@@ -35,6 +35,12 @@ def validate_task(task: dict, idx: int) -> None:
         raise ValueError(f"task#{idx} acceptance must be non-empty list")
     if not isinstance(task['test_plan'], list) or not task['test_plan']:
         raise ValueError(f"task#{idx} test_plan must be non-empty list")
+    if not isinstance(task['files_touched'], list):
+        raise ValueError(f"task#{idx} files_touched must be list")
+    if not isinstance(task['dependencies'], list):
+        raise ValueError(f"task#{idx} dependencies must be list")
+    if not isinstance(task['risk'], str):
+        raise ValueError(f"task#{idx} risk must be string")
 
 
 def main() -> int:
@@ -50,10 +56,16 @@ def main() -> int:
         raise ValueError('PLAN.yaml must contain non-empty tasks list')
 
     backlog = {'source': str(in_path), 'tasks': []}
+    task_ids: set[str] = set()
     for i, task in enumerate(tasks, start=1):
         validate_task(task, i)
+        task_id = str(task['id'])
+        if task_id in task_ids:
+            raise ValueError(f'duplicate task id found: {task_id}')
+        task_ids.add(task_id)
         backlog['tasks'].append({
             **task,
+            'id': task_id,
             'status': 'todo',
             'attempts': 0,
             'notes': ''
