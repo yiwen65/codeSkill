@@ -8,6 +8,11 @@ Apply in this order when relevant to repository stack:
 4. Unit tests
 5. Integration/smoke tests
 
+## Execution policy
+- Prefer `scripts/run_tests.sh` as the default automated gate entrypoint.
+- Stop on first hard failure; fix then rerun.
+- If a gate is unavailable (tool missing / script absent), record a clear skip reason.
+
 ## Suggested commands by stack
 
 ### Node
